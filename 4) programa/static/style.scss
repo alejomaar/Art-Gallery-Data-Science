@@ -1,0 +1,88 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body,html{
+    width: 100%;
+    height: 100%;
+    font-family: "Raleway";
+}
+
+.container{
+    display: flex;
+    height: 70%;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 4rem !important;
+    align-items: center;
+}
+.loadSection{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+}
+.title{
+    text-align: center;
+    flex: 1 0 0;
+    
+}
+
+.imageContainer{
+    margin-top: 2rem;
+    width: 100%;
+    height: 50%;
+    background-color: rgb(41, 41, 41);
+    flex: 10 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .boton{
+        background-color: aliceblue;
+        padding: 1rem 2rem;
+    }
+    
+      input[type="file"]
+     {
+        opacity:0;
+        z-index:1;
+     }
+}
+img{
+    max-height: 100%;
+    height: 0;
+}
+
+
+.trainSection{
+    padding: 2rem;
+    padding-top: 4rem;
+    width: 30%;
+    height: 90%;
+    max-height: 100%;
+    .info{
+        height: 70%;
+    }
+    .credits{
+        display: flex;
+        flex-direction: column;
+        height: 30%;
+        justify-content: flex-end;
+    }
+    span{
+        display: block;
+        width: 100%;
+    }
+    .subtitle{
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+}
+
+
+
+

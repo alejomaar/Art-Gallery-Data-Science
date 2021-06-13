@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Big Data</title>
+</head>
+<body>
+    <div class="container">
+        <div class="loadSection">
+            <h1 class="title">Image Style Prediction</h1>
+            <div class="imageContainer">
+                <img id="imagePreview" src="" alt="">
+                <form action="/edgesnew" method="POST" id="form" enctype="multipart/form-data"  >
+                    <input name="picture" type="file" id="file" accept="image/*" style="display:none">
+                    <label class="boton" for="file">Elige un archivo</label>
+                    <input id="auxiliar"type="submit" style="display:none">
+                </form>
+            </div>
+        </div>
+        <div class="trainSection">
+            <div class="info">
+                <h1 class="title">Informacion</h1>
+                <p id="Tono">Tono:</p>
+                <p id="PromedioR">Promedio R</p>
+                <p id="PromedioG">Promedio G</p>
+                <p id="PromedioB">Promedio B</p>
+                <p id="VarianzaR">Varianza R</p>
+                <p id="VarianzaG">Varianza G</p>
+                <p id="VarianzaB">Varianza B</p>
+            </div>
+            
+            <div class="credits">
+                <h1 class="subtitle">Creditos</h1>
+                <span>Cristian Beltran</span>
+                <span>Paula Peña</span>
+                <span>Alejandro Aponte</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    //Retornar imagen por id
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    //Ejecutar metodo post a python y recuperar la prediccion
+    $("form").addEventListener('submit', (e)=>{
+        
+        e.preventDefault();
+        var formdata = new FormData($("form"))
+        fetch('/edges',{
+            method: 'POST',
+            body: formdata
+        }).then(res =>res.json())
+        .then(data =>{
+            console.log(data);
+            RenderResults(data)
+        })
+    });
+    //Mostrar valores del backend and frontend 
+    function RenderResults(data){
+        $("Tono").innerHTML = "Tono: "+data.tono;
+        $("PromedioR").innerHTML = "Promedio R:"+Math.round(data.meanR);
+        $("PromedioG").innerHTML = "Promedio G:"+Math.round(data.meanG);
+        $("PromedioB").innerHTML = "Promedio B:"+Math.round(data.meanB);
+        $("VarianzaR").innerHTML = "Varianza R:"+Math.round(data.stdR);
+        $("VarianzaG").innerHTML = "Varianza G:"+Math.round(data.stdG);
+        $("VarianzaB").innerHTML = "Varianza B:"+Math.round(data.stdB);
+
+        //$("ResultAlto").innerHTML = data.h;
+    }
+
+    //Mostrar imagen cargada en interfaz
+    $("file").onchange = function (evt) {
+    var tgt = evt.target || window.event.srcElement,
+        files = tgt.files;
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            $("imagePreview").src = fr.result;
+            $("imagePreview").style.height = "100%";
+        }
+        fr.readAsDataURL(files[0]);
+        PreviewImage()
+        $("auxiliar").click();
+    }
+    else {
+        console.log("Not supported")
+
+    }
+    //Remover etiquetas cuando la imagen carge
+    function PreviewImage(){
+        $("form").style.display= "none";
+    }
+}
+
+    </script>
+</body>
+</html>
